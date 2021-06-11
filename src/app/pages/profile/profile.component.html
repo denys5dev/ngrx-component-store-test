@@ -2,16 +2,38 @@
 
 <div class="content-block dx-card responsive-paddings">
   <div class="form-avatar">
-    <img src="https://js.devexpress.com/Demos/WidgetsGallery/JSDemos/{{employee.Picture}}"/>
+    <img
+      src="https://js.devexpress.com/Demos/WidgetsGallery/JSDemos/{{
+        employee.Picture
+      }}"
+    />
   </div>
-  <span>{{employee.Notes}}</span>
+  <span>{{ employee.Notes }}</span>
 </div>
 
 <div class="content-block dx-card responsive-paddings">
-  <dx-form id="form"
-    [formData]="employee"
-    labelLocation="top"
-    [colCountByScreen]="colCountByScreen"
-  >
-  </dx-form>
+  <form id="form" [formGroup]="form">
+    <div class="dx-field">
+      <div class="dx-field-label">First Name</div>
+      <div class="dx-field-value">
+        <dx-text-box formControlName="name"></dx-text-box>
+      </div>
+    </div>
+    <div class="dx-field">
+      <div class="dx-field-label">Last NAme</div>
+      <div class="dx-field-value">
+        <dx-text-box formControlName="lastName"></dx-text-box>
+      </div>
+    </div>
+    <div class="dx-field">
+      <div class="dx-field-label">Gender</div>
+      <div class="dx-field-value">
+        <dx-text-box formControlName="gender"></dx-text-box>
+      </div>
+    </div>
+    <div class="dx-field">
+      <dx-button (onClick)="onSubmit()" text="submit"></dx-button>
+      <dx-button (onClick)="reset()" text="reset"></dx-button>
+    </div>
+  </form>
 </div>
