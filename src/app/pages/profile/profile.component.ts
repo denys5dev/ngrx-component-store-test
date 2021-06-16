@@ -4,6 +4,8 @@ import { ProfileStore } from './store/profile.store';
 import { take } from 'rxjs/operators';
 import { Store } from '@ngxs/store';
 import { Navigate } from '@ngxs/router-plugin';
+import { AppInfoService } from 'src/app/shared/services';
+import { Task } from 'src/app/shared/store/app.action';
 
 @Component({
   templateUrl: 'profile.component.html',
@@ -19,7 +21,8 @@ export class ProfileComponent implements OnInit {
   constructor(
     private _fb: FormBuilder,
     private profileStore: ProfileStore,
-    private readonly store: Store
+    private readonly store: Store,
+    private readonly _appInfoService: AppInfoService
   ) {
     this.employee = {
       ID: 7,
@@ -60,7 +63,7 @@ export class ProfileComponent implements OnInit {
   onSubmit() {
     console.log('submit');
     console.log(this.form.getRawValue());
-    this.store.dispatch(new Navigate(['/tasks']));
+    this.store.dispatch([new Task.Todo()]);
   }
 
   reset() {

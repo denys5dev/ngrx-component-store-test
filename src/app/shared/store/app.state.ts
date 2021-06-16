@@ -1,10 +1,14 @@
-import { state } from '@angular/animations';
+import { Injectable } from '@angular/core';
+import { Navigate } from '@ngxs/router-plugin';
 import { Action, State, StateContext } from '@ngxs/store';
+import { tap } from 'rxjs/operators';
+import { AppInfoService } from '../services/app-info.service';
 import { Task } from './app.action';
 
 export interface AppStateModel {
   tasks: any;
   priority?: any[];
+  todo?: any;
 }
 
 @State<AppStateModel>({
@@ -14,9 +18,30 @@ export interface AppStateModel {
     priority: [],
   },
 })
+@Injectable()
 export class AppState {
+  constructor(private readonly _appInfoService: AppInfoService) {}
+
+  @Action(Task.Todo, { cancelUncompleted: true })
+  todo({ dispatch, patchState }: StateContext<AppStateModel>) {
+    patchState({ todo: 'pending' });
+    return this._appInfoService
+      .getTodo()
+      .pipe(tap((success) => dispatch(new Task.TodoSuccess(success))));
+  }
+
+  @Action(Task.TodoSuccess, { cancelUncompleted: true })
+  todoSuccess(
+    { patchState, dispatch, getState, setState }: StateContext<AppStateModel>,
+    action: Task.TodoSuccess
+  ) {
+    patchState({ todo: action.payload });
+    dispatch(new Navigate(['/tasks']));
+  }
+
   @Action(Task.Priority)
-  priority({ patchState }: StateContext<AppStateModel>) {
+  priority({ patchState, getState }: StateContext<AppStateModel>) {
+    const state = getState();
     patchState({
       priority: [
         { name: 'High', value: 4 },
@@ -34,9 +59,7 @@ export class AppState {
     dispatch,
     getState,
   }: StateContext<AppStateModel>) {
-    const state = getState().tasks;
-    setState({
-      ...state,
+    patchState({
       tasks: {
         store: {
           type: 'odata',

@@ -11,4 +11,13 @@ export namespace Task {
   export class Priority {
     static readonly type = '[App] Fetch Priority';
   }
+
+  export class Todo {
+    static readonly type = '[App] Fetch Todo';
+  }
+
+  export class TodoSuccess {
+    static readonly type = '[App] Todo Success';
+    constructor(public payload: any) {}
+  }
 }

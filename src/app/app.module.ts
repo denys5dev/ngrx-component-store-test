@@ -24,6 +24,7 @@ import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
 import { AppState } from './shared/store/app.state';
 import { CommonModule } from '@angular/common';
 import { NgxsRouterPluginModule } from '@ngxs/router-plugin';
+import { HttpClientModule } from '@angular/common/http';
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -45,6 +46,7 @@ import { NgxsRouterPluginModule } from '@ngxs/router-plugin';
     NgxsRouterPluginModule.forRoot(),
     NgxsReduxDevtoolsPluginModule.forRoot(),
     NgxsLoggerPluginModule.forRoot(),
+    HttpClientModule,
   ],
   providers: [AuthService, ScreenService, AppInfoService],
   bootstrap: [AppComponent],
