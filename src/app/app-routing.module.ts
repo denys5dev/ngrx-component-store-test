@@ -13,6 +13,7 @@ import { TasksComponent } from './pages/tasks/tasks.component';
 import { DevExtremeModule } from 'devextreme-angular';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ProfileStore } from './pages/profile/store/profile.store';
+import { CommonModule } from '@angular/common';
 
 const routes: Routes = [
   {
@@ -62,6 +63,7 @@ const routes: Routes = [
     DevExtremeModule,
     ReactiveFormsModule,
     FormsModule,
+    CommonModule,
   ],
   providers: [AuthGuardService, ProfileStore],
   exports: [RouterModule],

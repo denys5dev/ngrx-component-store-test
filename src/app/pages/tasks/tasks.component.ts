@@ -1,38 +1,16 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Select, Store } from '@ngxs/store';
 import 'devextreme/data/odata/store';
+import { Task } from 'src/app/shared/store/app.action';
 
 @Component({
-  templateUrl: 'tasks.component.html'
+  templateUrl: 'tasks.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-
 export class TasksComponent {
-  dataSource: any;
-  priority: any[];
+  @Select() app$;
 
-  constructor() {
-    this.dataSource = {
-      store: {
-        type: 'odata',
-        key: 'Task_ID',
-        url: 'https://js.devexpress.com/Demos/DevAV/odata/Tasks'
-      },
-      expand: 'ResponsibleEmployee',
-      select: [
-        'Task_ID',
-        'Task_Subject',
-        'Task_Start_Date',
-        'Task_Due_Date',
-        'Task_Status',
-        'Task_Priority',
-        'Task_Completion',
-        'ResponsibleEmployee/Employee_Full_Name'
-      ]
-    };
-    this.priority = [
-      { name: 'High', value: 4 },
-      { name: 'Urgent', value: 3 },
-      { name: 'Normal', value: 2 },
-      { name: 'Low', value: 1 }
-    ];
+  constructor(private readonly store: Store) {
+    this.store.dispatch([new Task.FetchAll(), new Task.Priority()]);
   }
 }

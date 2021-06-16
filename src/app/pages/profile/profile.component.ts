@@ -2,6 +2,8 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ProfileStore } from './store/profile.store';
 import { take } from 'rxjs/operators';
+import { Store } from '@ngxs/store';
+import { Navigate } from '@ngxs/router-plugin';
 
 @Component({
   templateUrl: 'profile.component.html',
@@ -14,7 +16,11 @@ export class ProfileComponent implements OnInit {
   colCountByScreen: object;
   form$ = this.profileStore.profile$;
 
-  constructor(private _fb: FormBuilder, private profileStore: ProfileStore) {
+  constructor(
+    private _fb: FormBuilder,
+    private profileStore: ProfileStore,
+    private readonly store: Store
+  ) {
     this.employee = {
       ID: 7,
       FirstName: 'Sandra',
@@ -54,6 +60,7 @@ export class ProfileComponent implements OnInit {
   onSubmit() {
     console.log('submit');
     console.log(this.form.getRawValue());
+    this.store.dispatch(new Navigate(['/tasks']));
   }
 
   reset() {
